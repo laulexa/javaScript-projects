@@ -20,7 +20,7 @@ class Particle {
     }
 }
 
-function handleParticle() {
+function handleParticles() {
     particlesArray.unshift(new Particle);
     for(i = 0; i < particlesArray.length; i++) {
         particlesArray[i].update();

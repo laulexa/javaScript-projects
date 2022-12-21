@@ -24,7 +24,7 @@ class Obstacle {
     }
 }
 
-function handleObstacle() {
+function handleObstacles() {
     if(frame%150 === 0) {
         obstaclesArray.unshift(new Obstacle);
     }
