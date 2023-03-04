@@ -4,32 +4,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
     <title>Mokepon</title>
     <script src="./js/mokepon.js"></script>
 </head>
-<body>
-    <h1>MOKEPON 🔥💧🌱</h1>
-
-    <section id="seleccionar mascota">
-            <h2>choose your buddy</h2>
-            
-            <label for="hipodoge">Hipodoge</label>
-            <input type="radio" name="buddy" id="hipodoge"/>
-            
-            <label for="capipepo">Capipepo</label> 
-            <input type="radio" name="buddy"id="capipepo" />
-            
-            <label for="ratigueya">Ratigueya</label> 
-            <input type="radio" name="buddy" id="ratigueya"/>
-            
-            <label for="langostelvis">Langostelvis</label> 
-            <input type="radio" name="buddy" id="langostelvis"/>
-            
-            <label for="tucapalma">Tucapalma</label> 
-            <input type="radio" name="buddy" id="tucapalma"/>
-           
-            <label for="pydos">Pydos</label> 
-            <input type="radio" name="buddy" id="pydos"/>
+<body>   
+    <section id="choose-buddy-section">
+        <h1 class="title">Mokepon</h1>
+            <h2 class="subtitle">choose your buddy</h2>
+            <div class="cards">
+                <label for="hipodoge" class="game-card">
+                    <p>Hipodoge</p>
+                    <img src="./assets/mokepons_mokepon_hipodoge_attack-4e83b55e-c381-4098-9a9d-40d86921d2a7.png" alt="">
+                </label>
+                <input type="radio" name="buddy" id="hipodoge"/>
+                
+                <label for="capipepo" class="game-card">Capipepo</label> 
+                <input type="radio" name="buddy"id="capipepo" />
+                
+                <label for="ratigueya" class="game-card">Ratigueya</label> 
+                <input type="radio" name="buddy" id="ratigueya"/>
+                
+                <label for="langostelvis" class="game-card">Langostelvis</label> 
+                <input type="radio" name="buddy" id="langostelvis"/>
+                
+                <label for="tucapalma" class="game-card">Tucapalma</label> 
+                <input type="radio" name="buddy" id="tucapalma"/>
+               
+                <label for="pydos" class="game-card">Pydos</label> 
+                <input type="radio" name="buddy" id="pydos"/>
+            </div>
 
                 <!-- Hipodoge -> Water
                 Capipepo -> ground
@@ -40,11 +47,11 @@
 
             <button id="choose-buddy-btn">choose</button>
     </section>
-    <section id="seleccionar-ataque">
+    <section id="choose-attack">
         <h2>choose your attack:</h2>
 
-        <p>Your buddy <span id="buddy-player"></span> have <span>3</span> lives</p>
-        <p>Your opponent's buddy <span id="buddy-opponent"></span> has <span>3</span> lives</p>
+        <p>Your buddy <span id="buddy-player"></span> have <span id="player-lives">3</span> lives</p>
+        <p>Your opponent's buddy <span id="buddy-opponent"></span> has <span id="opponent-lives">3</span> lives</p>
         <p>
             <button id="fire-btn">Fire 🔥</button>
             <button id="water-btn">Water 💧</button>

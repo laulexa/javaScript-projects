@@ -1,20 +1,37 @@
 let playerAttack;
 let opponentAttack;
 let gameResult;
+let playerLives = 3;
+let opponentLives = 3;
 
 function startGame() {
+   let chooseAttack = document.getElementById("choose-attack");
+   chooseAttack.style.display = 'none';
+
     let chooseBuddyBtn = document.getElementById("choose-buddy-btn");
     chooseBuddyBtn.addEventListener("click", chooseBuddy);
     
+    let restartGameSection = document.getElementById('restart');
+    restartGameSection.style.display = "none";
+
     let fireBtn = document.getElementById("fire-btn");
     fireBtn.addEventListener ("click", fireAttack);
     let waterBtn = document.getElementById("water-btn");
     waterBtn.addEventListener ("click", waterAttack);
     let groundBtn = document.getElementById("ground-btn");
     groundBtn.addEventListener ("click", groundAttack);
+
+    let restartButton = document.getElementById("restart-btn");
+    restartButton.addEventListener("click", restartGame)
 }
 
 function chooseBuddy() {
+   let chooseAttack = document.getElementById("choose-attack");
+    chooseAttack.style.display = 'block';
+
+    let chooseBuddySection = document.getElementById("choose-buddy-section");
+   chooseBuddySection.style.display = 'none';
+
     let hipodoge = document.getElementById("hipodoge")
     let capipepo = document.getElementById("capipepo")
     let ratigueya = document.getElementById("ratigueya")
@@ -40,6 +57,7 @@ function chooseBuddy() {
      }
 
      randomOpponentBuddy()
+
 }
 
 function randomOpponentBuddy() {
@@ -64,12 +82,6 @@ function randomOpponentBuddy() {
 function randomNumber(min,max) {
    return Math.floor(Math.random() * (max - min + 1) + min)
 }
-   // Hipodoge -> Water
-   // Capipepo -> ground
-   // Ratigueya -> fire
-   // Langostelvis -> fire and water
-   // Tucapalma -> ground and water
-   // Pydos -> ground and fire
 
 function fireAttack () {
    console.log("fire attack")
@@ -101,34 +113,68 @@ function opponentRandomAttack() {
    battle()
 }
 
-function createMessage() {
+function battle () {
+   let spanPlayerLives = document.getElementById("player-lives");
+   let spanOpponentLives = document.getElementById("opponent-lives");
+  
+   if(playerAttack == opponentAttack) {
+      createMessage("TIED 🤦🏽‍♀️")
+   } else if(playerAttack == "WATER" && opponentAttack == "FIRE") {
+      createMessage("WIN 🏆");
+      opponentLives--
+      spanOpponentLives.innerHTML = opponentLives;
+   } else if(playerAttack == "WATER" && opponentAttack == "GROUND") {
+      createMessage("WIN 🏆 ")
+      opponentLives--
+      spanOpponentLives.innerHTML = opponentLives;
+   } else if(playerAttack == "GROUND" && opponentAttack == "FIRE") {
+      createMessage("WIN 🏆")
+      opponentLives--
+      spanOpponentLives.innerHTML = opponentLives;
+   } else {
+      createMessage("LOST 😩")
+      playerLives--
+      spanPlayerLives.innerHTML = playerLives;
+   }
+   checkGameLives()
+}
+
+function checkGameLives() {
+   if(playerLives == 0) {
+      console.log("Que paso")
+      createFinalMessage("You lost the game 😫")
+   } else if(opponentLives == 0) {
+      createFinalMessage("You Won the game! 😃")
+   } 
+}
+
+function createMessage(result) {
    let sectionMessages = document.getElementById("mensajes");
    let paragraph = document.createElement('p');
-   paragraph.innerHTML = "Your buddy chose: " + playerAttack + ", and your opponent chose: " + opponentAttack + " - You " + gameResult;
+   paragraph.innerHTML = "Your buddy chose: " + playerAttack + ", and your opponent chose: " + opponentAttack + " - You " + result;
    sectionMessages.appendChild(paragraph)
 }
 
-function battle () {
-   if(playerAttack == opponentAttack) {
-      gameResult = "TIED 🤦🏽‍♀️"
-   } else if(playerAttack == "FIRE" && opponentAttack == "WATER") {
-      gameResult = "LOST 😩"
-   } else if(playerAttack == "FIRE" && opponentAttack == "GROUND") {
-      gameResult = "LOST 😩"
-   }  else if(playerAttack == "WATER" && opponentAttack == "FIRE") {
-      gameResult = "WIN 🏆"
-   } else if(playerAttack == "WATER" && opponentAttack == "GROUND") {
-      gameResult = "WIN 🏆 "
-   }  else if(playerAttack == "GROUND" && opponentAttack == "WATER") {
-      gameResult = "LOST 😩"
-   } else if(playerAttack == "GROUND" && opponentAttack == "FIRE") {
-      gameResult = "WIN 🏆"
-   } else {
-      gameResult = "A RESULT IS MISSING"
-   }
-   createMessage()
+function createFinalMessage(finalResult) {
+   let sectionMessages = document.getElementById("mensajes");
+   let paragraph = document.createElement('p');
+   paragraph.innerHTML = finalResult;
+   sectionMessages.appendChild(paragraph)
+
+   let fireBtn = document.getElementById("fire-btn");
+   fireBtn.disabled = true
+   let waterBtn = document.getElementById("water-btn");
+   waterBtn.disabled = true
+   let groundBtn = document.getElementById("ground-btn");
+   groundBtn.disabled = true
+
+   let restartGameSection = document.getElementById('restart');
+   restartGameSection.style.display = "block";
+}
+
+function restartGame() {
+   location.reload()
+   
 }
 
 window.addEventListener("load", startGame)// para que no importe la posicion de la etiqueta script en el html
-
-//game-result
