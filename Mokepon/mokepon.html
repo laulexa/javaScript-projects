@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@300&display=swap" rel="stylesheet">
     <title>Mokepon</title>
     <script src="./js/mokepon.js"></script>
 </head>
@@ -16,26 +16,41 @@
         <h1 class="title">Mokepon</h1>
             <h2 class="subtitle">choose your buddy</h2>
             <div class="cards">
+                <input type="radio" name="buddy" id="hipodoge"/>
                 <label for="hipodoge" class="game-card">
                     <p>Hipodoge</p>
-                    <img src="./assets/mokepons_mokepon_hipodoge_attack-4e83b55e-c381-4098-9a9d-40d86921d2a7.png" alt="">
+                    <img src="./assets/mokepons_mokepon_hipodoge_attack.png" alt="pokemon image">
                 </label>
-                <input type="radio" name="buddy" id="hipodoge"/>
                 
-                <label for="capipepo" class="game-card">Capipepo</label> 
                 <input type="radio" name="buddy"id="capipepo" />
+                <label for="capipepo" class="game-card">
+                    <p>Capipepo</p>
+                    <img src="./assets/mokepons_mokepon_capipepo_attack.png" alt="pokemon image">
+                </label> 
                 
-                <label for="ratigueya" class="game-card">Ratigueya</label> 
                 <input type="radio" name="buddy" id="ratigueya"/>
+                <label for="ratigueya" class="game-card">
+                    <p>Ratigueya</p>
+                    <img src="./assets/mokepons_mokepon_ratigueya_attack.png" alt="pokemon image">
+                </label> 
                 
-                <label for="langostelvis" class="game-card">Langostelvis</label> 
                 <input type="radio" name="buddy" id="langostelvis"/>
+                <label for="langostelvis" class="game-card">
+                    <p>Langostelvis</p>
+                    <img src="./assets/mokepons_mokepon_capipepo_attack.png" alt="pokemon image">
+                </label> 
                 
-                <label for="tucapalma" class="game-card">Tucapalma</label> 
                 <input type="radio" name="buddy" id="tucapalma"/>
+                <label for="tucapalma" class="game-card">
+                    <p>Tucapalma</p>
+                    <img src="./assets/mokepons_mokepon_capipepo_attack.png" alt="pokemon image">
+                </label> 
                
-                <label for="pydos" class="game-card">Pydos</label> 
                 <input type="radio" name="buddy" id="pydos"/>
+                <label for="pydos" class="game-card">
+                    <p>Pydos</p>
+                    <img src="./assets/mokepons_mokepon_capipepo_attack.png" alt="pokemon image">
+                </label> 
             </div>
 
                 <!-- Hipodoge -> Water
@@ -48,21 +63,33 @@
             <button id="choose-buddy-btn">choose</button>
     </section>
     <section id="choose-attack">
-        <h2>choose your attack:</h2>
+        <h1 class="title">Mokepon</h1>
+        <h2 class="subtitle">choose your attack:</h2>
+            <div class="card-attacks">
+                <button id="fire-btn" class="attack-btn">Fire 🔥</button>
+                <button id="water-btn" class="attack-btn">Water 💧</button>
+                <button id="ground-btn" class="attack-btn">ground 🌱</button>
+            </div>
 
-        <p>Your buddy <span id="buddy-player"></span> have <span id="player-lives">3</span> lives</p>
-        <p>Your opponent's buddy <span id="buddy-opponent"></span> has <span id="opponent-lives">3</span> lives</p>
-        <p>
-            <button id="fire-btn">Fire 🔥</button>
-            <button id="water-btn">Water 💧</button>
-            <button id="ground-btn">ground 🌱</button>
-        </p>
-    </section>
-    <section id="mensajes">
-       
-    </section>
-    <section id="restart">
-        <button id="restart-btn">restart</button>
+            <div id="mensajes">   
+                <p id="result">Good Luck!</p>
+                <section id="restart">
+                    <button id="restart-btn">restart</button>
+                </section>
+            </div>
+
+            <div class="attacks">
+                <div class="attacksForThePlayer">
+                    <p id="player-lives">3</p>
+                    <p id="buddy-player"></p>
+                    <div id="player-attacks"></div>
+                </div>
+                <div class="attacksForTheOpponent">
+                    <p id="opponent-lives">3</p>
+                    <p id="buddy-opponent"></p>
+                    <div id="opponent-attacks"></div>
+                </div>
+            </div>
     </section>
 </body>
 </html>

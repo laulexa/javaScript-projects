@@ -27,7 +27,7 @@ function startGame() {
 
 function chooseBuddy() {
    let chooseAttack = document.getElementById("choose-attack");
-    chooseAttack.style.display = 'block';
+    chooseAttack.style.display = 'flex';
 
     let chooseBuddySection = document.getElementById("choose-buddy-section");
    chooseBuddySection.style.display = 'none';
@@ -149,17 +149,28 @@ function checkGameLives() {
 }
 
 function createMessage(result) {
-   let sectionMessages = document.getElementById("mensajes");
-   let paragraph = document.createElement('p');
-   paragraph.innerHTML = "Your buddy chose: " + playerAttack + ", and your opponent chose: " + opponentAttack + " - You " + result;
-   sectionMessages.appendChild(paragraph)
+   let sectionMessages = document.getElementById("result");
+   let playerAttacks = document.getElementById("player-attacks");
+   let opponentAttacks = document.getElementById("opponent-attacks");
+
+   //let notification = document.createElement('p');
+   let newPlayerAttack = document.createElement('p');
+   let newOpponentAttack = document.createElement('p');
+
+   sectionMessages.innerHTML = result;
+   newPlayerAttack.innerHTML = playerAttack;
+   newOpponentAttack.innerHTML = opponentAttack;
+   // let paragraph = document.createElement('p');
+   // paragraph.innerHTML = "Your buddy chose: " + playerAttack + ", and your opponent chose: " + opponentAttack + " - You " + result;
+   //sectionMessages.appendChild(notification);
+   playerAttacks.appendChild(newPlayerAttack);
+   opponentAttacks.appendChild(newOpponentAttack);
 }
 
 function createFinalMessage(finalResult) {
-   let sectionMessages = document.getElementById("mensajes");
-   let paragraph = document.createElement('p');
-   paragraph.innerHTML = finalResult;
-   sectionMessages.appendChild(paragraph)
+   let sectionMessages = document.getElementById("result");
+
+   sectionMessages.innerHTML = finalResult;
 
    let fireBtn = document.getElementById("fire-btn");
    fireBtn.disabled = true
