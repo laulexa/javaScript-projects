@@ -1,81 +1,154 @@
+let mokepones = [];
 let playerAttack;
 let opponentAttack;
-let gameResult;
+let mokeponOptions;
+let inputHipodoge
+let inputCapipepo
+let inputRatigueya
+let inputLangostelvis
+let inputTucapalma
+let inputPydos
 let playerLives = 3;
 let opponentLives = 3;
 
-function startGame() {
-   let chooseAttack = document.getElementById("choose-attack");
+class Mokepon {
+   constructor (name, picture, lives) {
+      this.name = name
+      this.picture = picture
+      this.lives = lives
+      this.attacks = []
+   }
+}
+
+let hipodoge = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.png', 5)
+let capipepo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.png', 5)
+let ratigueya = new Mokepon ("Ratigueya","./assets/mokepons_mokepon_ratigueya_attack.png", 3);
+let langostelvis = new Mokepon ("Langostelvis","./assets/mokepons_mokepon_capipepo_attack.png", 3);
+let tucapalma = new Mokepon ("Tucapalma","./assets/mokepons_mokepon_capipepo_attack.png", 3);
+let pydos = new Mokepon ("Pydos","./assets/mokepons_mokepon_capipepo_attack.png", 3);
+
+   hipodoge.attacks.push(
+      {name: "WATER 💧", id: "water-btn"},
+      {name: "WATER 💧", id: "water-btn"},
+      {name: "WATER 💧", id: "water-btn"},
+      {name: "FIRE 🔥", id: "fire-btn"},
+      {name: "GROUND 🌱", id: "ground-btn"},
+   )
+   console.log(hipodoge.attacks) 
+   capipepo.attacks.push(
+      {name: "GROUND 🌱", id: "ground-btn"},
+      {name: "GROUND 🌱", id: "ground-btn"},
+      {name: "GROUND 🌱", id: "ground-btn"},
+      {name: "WATER 💧", id: "water-btn"},
+      {name: "FIRE 🔥", id: "fire-btn"},
+   )
+   console.log(capipepo.attacks) 
+   ratigueya.attacks.push(
+      {name: "FIRE 🔥", id: "fire-btn"},
+      {name: "FIRE 🔥", id: "fire-btn"},
+      {name: "FIRE 🔥", id: "fire-btn"},
+      {name: "WATER 💧", id: "water-btn"},
+      {name: "GROUND 🌱", id: "ground-btn"},
+   )
+   console.log(ratigueya.attacks) 
+   langostelvis.attacks.push(
+      {name: "WATER 💧", id: "water-btn"},
+      {name: "WATER 💧", id: "water-btn"},
+      {name: "FIRE 🔥", id: "fire-btn"},
+      {name: "FIRE 🔥", id: "fire-btn"},
+      {name: "GROUND 🌱", id: "ground-btn"},
+   )
+   console.log(langostelvis.attacks) 
+   tucapalma.attacks.push(
+      {name: "WATER 💧", id: "water-btn"},
+      {name: "WATER 💧", id: "water-btn"},
+      {name: "GROUND 🌱", id: "ground-btn"},
+      {name: "GROUND 🌱", id: "ground-btn"},
+      {name: "FIRE 🔥", id: "fire-btn"},
+   )
+   console.log(tucapalma.attacks) 
+   pydos.attacks.push(
+      {name: "FIRE 🔥", id: "fire-btn"},
+      {name: "FIRE 🔥", id: "fire-btn"},
+      {name: "GROUND 🌱", id: "ground-btn"},
+      {name: "GROUND 🌱", id: "ground-btn"},
+      {name: "WATER 💧", id: "water-btn"},
+   )
+   console.log(pydos.attacks) 
+   mokepones.push(hipodoge,capipepo,ratigueya, langostelvis, tucapalma, pydos);
+   console.log(mokepones)
+
+function startGame() {  
    chooseAttack.style.display = 'none';
 
-    let chooseBuddyBtn = document.getElementById("choose-buddy-btn");
+   mokepones.forEach((mokepon) => {
+      mokeponOptions = `
+      <input type="radio" name="buddy" id=${mokepon.name} />
+         <label class="game-card" for=${mokepon.name} >
+            <p>${mokepon.name}</p>
+            <img src=${mokepon.picture} alt=${mokepon.name}>
+         </label>
+         `
+   cardsContainer.innerHTML += mokeponOptions
+
+      inputHipodoge = document.getElementById("Hipodoge")
+      inputCapipepo = document.getElementById("Capipepo")
+      inputRatigueya = document.getElementById("Ratigueya")
+      inputLangostelvis = document.getElementById("Langostelvis");
+      inputTucapalma = document.getElementById("Tucapalma");
+      inputPydos = document.getElementById("Pydos");
+   })
+   
+   console.log(inputCapipepo)
+
     chooseBuddyBtn.addEventListener("click", chooseBuddy);
     
-    let restartGameSection = document.getElementById('restart');
-    restartGameSection.style.display = "none";
-
-    let fireBtn = document.getElementById("fire-btn");
-    fireBtn.addEventListener ("click", fireAttack);
-    let waterBtn = document.getElementById("water-btn");
-    waterBtn.addEventListener ("click", waterAttack);
-    let groundBtn = document.getElementById("ground-btn");
+    //restartGameSection.style.display = "none"; //ojo
+    fireBtn.addEventListener ("click", fireAttack);    
+    waterBtn.addEventListener ("click", waterAttack);    
     groundBtn.addEventListener ("click", groundAttack);
-
-    let restartButton = document.getElementById("restart-btn");
+  
     restartButton.addEventListener("click", restartGame)
 }
 
 function chooseBuddy() {
-   let chooseAttack = document.getElementById("choose-attack");
-    chooseAttack.style.display = 'flex';
-
-    let chooseBuddySection = document.getElementById("choose-buddy-section");
+   console.log("They chose me!")
    chooseBuddySection.style.display = 'none';
-
-    let hipodoge = document.getElementById("hipodoge")
-    let capipepo = document.getElementById("capipepo")
-    let ratigueya = document.getElementById("ratigueya")
-    let langostelvis = document.getElementById("langostelvis")
-    let tucapalma = document.getElementById("tucapalma")
-    let pydos = document.getElementById("pydos")
-    let spanBuddyPlayer = document.getElementById("buddy-player")
-
-     if(hipodoge.checked == true) {
-        spanBuddyPlayer.innerHTML = "hipodogue";   
-     } else if(capipepo.checked == true){     
-        spanBuddyPlayer.innerHTML = "capipepo";
-     } else if(ratigueya.checked == true){      
-        spanBuddyPlayer.innerHTML = "ratigueya";
-     } else if(langostelvis.checked == true){     
-        spanBuddyPlayer.innerHTML = "langostelvis";
-     } else if(tucapalma.checked == true){      
-        spanBuddyPlayer.innerHTML = "tucapalma";
-     } else if(pydos.checked == true){
-        spanBuddyPlayer.innerHTML = "pydos";
+    chooseAttack.style.display = 'flex';
+    console.log(inputHipodoge)
+    if (inputHipodoge.checked) {
+        spanBuddyPlayer.innerHTML = "Hipodoge";   
+     } else if(inputCapipepo.checked){     
+        spanBuddyPlayer.innerHTML = "Capipepo";
+     } else if(inputRatigueya.checked){      
+        spanBuddyPlayer.innerHTML = "Ratigueya";
+     } else if(inputLangostelvis.checked){     
+        spanBuddyPlayer.innerHTML = "Langostelvis";
+     } else if(inputTucapalma.checked){      
+        spanBuddyPlayer.innerHTML = "Tucapalma";
+     } else if(inputPydos.checked){
+        spanBuddyPlayer.innerHTML = "Pydos";
      } else {
       console.log("you have to select one option")
      }
-
      randomOpponentBuddy()
-
 }
 
 function randomOpponentBuddy() {
    let randomAttack = randomNumber(1,6) 
-   console.log(randomAttack)
-   let spanBuddyOpponent = document.getElementById("buddy-opponent")
+   console.log(randomAttack);
    if(randomAttack == 1) {
-      spanBuddyOpponent.innerHTML = "hipodogue";
+      spanBuddyOpponent.innerHTML = "Hipodoge";
    } else if(randomAttack == 2) {
-      spanBuddyOpponent.innerHTML = "capipepo";
+      spanBuddyOpponent.innerHTML = "Capipepo";
    } else if(randomAttack == 3) {
-      spanBuddyOpponent.innerHTML = "ratigueya";
+      spanBuddyOpponent.innerHTML = "Ratigueya";
    } else if(randomAttack == 4) {
-      spanBuddyOpponent.innerHTML = "langostelvis";
+      spanBuddyOpponent.innerHTML = "Langostelvis";
    } else if(randomAttack == 5) {
-      spanBuddyOpponent.innerHTML = "tucapalma";
+      spanBuddyOpponent.innerHTML = "Tucapalma";
    } else if(randomAttack == 6) {
-      spanBuddyOpponent.innerHTML = "pydos";
+      spanBuddyOpponent.innerHTML = "Pydos";
 }
 }
 
@@ -114,9 +187,6 @@ function opponentRandomAttack() {
 }
 
 function battle () {
-   let spanPlayerLives = document.getElementById("player-lives");
-   let spanOpponentLives = document.getElementById("opponent-lives");
-  
    if(playerAttack == opponentAttack) {
       createMessage("TIED 🤦🏽‍♀️")
    } else if(playerAttack == "WATER" && opponentAttack == "FIRE") {
@@ -149,10 +219,6 @@ function checkGameLives() {
 }
 
 function createMessage(result) {
-   let sectionMessages = document.getElementById("result");
-   let playerAttacks = document.getElementById("player-attacks");
-   let opponentAttacks = document.getElementById("opponent-attacks");
-
    //let notification = document.createElement('p');
    let newPlayerAttack = document.createElement('p');
    let newOpponentAttack = document.createElement('p');
@@ -168,18 +234,10 @@ function createMessage(result) {
 }
 
 function createFinalMessage(finalResult) {
-   let sectionMessages = document.getElementById("result");
-
    sectionMessages.innerHTML = finalResult;
-
-   let fireBtn = document.getElementById("fire-btn");
    fireBtn.disabled = true
-   let waterBtn = document.getElementById("water-btn");
    waterBtn.disabled = true
-   let groundBtn = document.getElementById("ground-btn");
    groundBtn.disabled = true
-
-   let restartGameSection = document.getElementById('restart');
    restartGameSection.style.display = "block";
 }
 
