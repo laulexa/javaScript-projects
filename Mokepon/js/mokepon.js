@@ -115,19 +115,19 @@ function chooseBuddy() {
    console.log("They chose me!")
    chooseBuddySection.style.display = 'none';
     chooseAttack.style.display = 'flex';
-    console.log(inputHipodoge)
+   
     if (inputHipodoge.checked) {
-        spanBuddyPlayer.innerHTML = "Hipodoge";   
+        spanBuddyPlayer.innerHTML = inputHipodoge.id;   
      } else if(inputCapipepo.checked){     
-        spanBuddyPlayer.innerHTML = "Capipepo";
+        spanBuddyPlayer.innerHTML = inputCapipepo.id;
      } else if(inputRatigueya.checked){      
-        spanBuddyPlayer.innerHTML = "Ratigueya";
+        spanBuddyPlayer.innerHTML = inputRatigueya.id;
      } else if(inputLangostelvis.checked){     
-        spanBuddyPlayer.innerHTML = "Langostelvis";
+        spanBuddyPlayer.innerHTML = inputLangostelvis.id;
      } else if(inputTucapalma.checked){      
-        spanBuddyPlayer.innerHTML = "Tucapalma";
+        spanBuddyPlayer.innerHTML = inputTucapalma.id;
      } else if(inputPydos.checked){
-        spanBuddyPlayer.innerHTML = "Pydos";
+        spanBuddyPlayer.innerHTML = inputPydos.id;
      } else {
       console.log("you have to select one option")
      }
@@ -135,21 +135,10 @@ function chooseBuddy() {
 }
 
 function randomOpponentBuddy() {
-   let randomAttack = randomNumber(1,6) 
-   console.log(randomAttack);
-   if(randomAttack == 1) {
-      spanBuddyOpponent.innerHTML = "Hipodoge";
-   } else if(randomAttack == 2) {
-      spanBuddyOpponent.innerHTML = "Capipepo";
-   } else if(randomAttack == 3) {
-      spanBuddyOpponent.innerHTML = "Ratigueya";
-   } else if(randomAttack == 4) {
-      spanBuddyOpponent.innerHTML = "Langostelvis";
-   } else if(randomAttack == 5) {
-      spanBuddyOpponent.innerHTML = "Tucapalma";
-   } else if(randomAttack == 6) {
-      spanBuddyOpponent.innerHTML = "Pydos";
-}
+   let randomBuddy = randomNumber(0 ,mokepones.length - 1) 
+   console.log(randomBuddy);
+
+   spanBuddyOpponent.innerHTML = mokepones[randomBuddy].name
 }
 
 function randomNumber(min,max) {
