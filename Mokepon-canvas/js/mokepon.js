@@ -21,6 +21,8 @@ let playerWins = 0
 let opponentWins = 0
 let playerLives = 3;
 let opponentLives = 3;
+let layout = map.getContext("2d")
+let interval
 
 class Mokepon {
    constructor (name, picture, lives) {
@@ -28,6 +30,14 @@ class Mokepon {
       this.picture = picture
       this.lives = lives
       this.attacks = []
+      this.x = 20
+      this.y = 30
+      this.width = 80
+      this.height = 80
+      this. pictureMap = new Image()
+      this.pictureMap.src = picture
+      this.speedX = 0
+      this.speedY = 0
    }
 }
 
@@ -91,6 +101,7 @@ let pydos = new Mokepon ("Pydos","./assets/mokepons_mokepon_capipepo_attack.png"
 
 function startGame() {  
    chooseAttack.style.display = 'none';
+   sectionMokeponMap.style.display = 'none';
 
    mokepones.forEach((mokepon) => {
       mokeponOptions = `
@@ -120,7 +131,11 @@ function startGame() {
 function chooseBuddy() {
    console.log("They chose me!")
    chooseBuddySection.style.display = 'none';
-    chooseAttack.style.display = 'flex';
+    //chooseAttack.style.display = 'flex';
+    sectionMokeponMap.style.display = 'flex'
+    interval = setInterval(drawBuddy, 50)
+    //let capipepoImage = new Image()
+    //capipepoImage.src = capipepo.picture
    
     if (inputHipodoge.checked) {
         spanBuddyPlayer.innerHTML = inputHipodoge.id;
@@ -302,5 +317,37 @@ function restartGame() {
    location.reload()
    
 }
+
+function drawBuddy(){
+   capipepo.x = capipepo.x + capipepo.speedX
+   capipepo.y = capipepo.y + capipepo.speedY
+   layout.clearRect(0, 0, map.width, map.height)
+      layout.drawImage (
+      capipepo.pictureMap,
+      capipepo.x,
+      capipepo.y,
+      capipepo.width,
+      capipepo.height
+    )
+   }
+
+   function moveUp() {
+      capipepo.speedY = -5
+   }
+   function moveDown() {
+      capipepo.speedY = 5
+   }
+   function moveRight() {
+      capipepo.speedX = 5
+   }
+   function moveLeft() {
+      capipepo.speedX = -5
+   }
+
+
+   function stopMove() {
+      capipepo.speedX = 0
+      capipepo.speedY = 0
+   }
 
 window.addEventListener("load", startGame)// para que no importe la posicion de la etiqueta script en el html
