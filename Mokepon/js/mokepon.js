@@ -15,6 +15,10 @@ let fireBtn
 let waterBtn 
 let groundBtn
 let buttons = []
+let playerAttackIndex
+let opponentAttackIndex
+let playerWins = 0
+let opponentWins = 0
 let playerLives = 3;
 let opponentLives = 3;
 
@@ -176,14 +180,17 @@ function attackSequence() {
             playerAttack.push('FIRE')
             console.log(playerAttack)
             button.style.background = '#112f58'
+            button.disabled = true
          } else if (e.target.textContent === '💧') {
             playerAttack.push('WATER')
             console.log(playerAttack)
             button.style.background = '#112f58'
+            button.disabled = true
          } else if (e.target.textContent === '🌱') {
             playerAttack.push('GROUND')
             console.log(playerAttack)
             button.style.background = '#112f58'
+            button.disabled = true
          }
          opponentRandomAttack()
       })
@@ -214,38 +221,60 @@ function opponentRandomAttack() {
       opponentAttack.push("GROUND")
    }
    console.log(opponentAttack)
-   battle()
+   startFight() 
+}
+
+function startFight() {
+   if(playerAttack.length === 5) {
+      battle()
+   }
+}
+
+function bothOpponentsIndex(player, opponent) {
+   playerAttackIndex = playerAttack[player]
+   opponentAttackIndex = opponentAttack[opponent]
 }
 
 function battle () {
-   if(playerAttack == opponentAttack) {
-      createMessage("TIED 🤦🏽‍♀️")
-   } else if(playerAttack == "WATER" && opponentAttack == "FIRE") {
-      createMessage("WIN 🏆");
-      opponentLives--
-      spanOpponentLives.innerHTML = opponentLives;
-   } else if(playerAttack == "WATER" && opponentAttack == "GROUND") {
-      createMessage("WIN 🏆 ")
-      opponentLives--
-      spanOpponentLives.innerHTML = opponentLives;
-   } else if(playerAttack == "GROUND" && opponentAttack == "FIRE") {
-      createMessage("WIN 🏆")
-      opponentLives--
-      spanOpponentLives.innerHTML = opponentLives;
-   } else {
-      createMessage("LOST 😩")
-      playerLives--
-      spanPlayerLives.innerHTML = playerLives;
+   for(let i = 0; i < playerAttack.length; i++) {
+      if(playerAttack[i] == opponentAttack[i]) {
+         bothOpponentsIndex(i, i)
+         createMessage("TIED 🤦🏽‍♀️")
+         // playerWins++
+         // spanPlayerLives.innerHTML = playerWins
+      } else if(playerAttack[i] == "WATER" && opponentAttack[i] == "FIRE") {
+         bothOpponentsIndex(i, i)
+         createMessage("WIN 🏆");
+         playerWins++
+         spanPlayerLives.innerHTML = playerWins
+      } else if(playerAttack[i] == "WATER" && opponentAttack[i] == "GROUND") {
+         bothOpponentsIndex(i, i)
+         createMessage("WIN 🏆 ")
+         playerWins++
+         spanPlayerLives.innerHTML = playerWins
+      } else if(playerAttack[i] == "GROUND" && opponentAttack[i] == "FIRE") {
+         bothOpponentsIndex(i, i)
+         createMessage("WIN 🏆")
+         playerWins++
+         spanPlayerLives.innerHTML = playerWins
+      } else {
+         bothOpponentsIndex(i, i)
+         createMessage("LOST 😩")
+         opponentWins++
+         spanOpponentLives.innerHTML = opponentWins
+      }
    }
+
    checkGameLives()
 }
 
 function checkGameLives() {
-   if(playerLives == 0) {
-      console.log("Que paso")
-      createFinalMessage("You lost the game 😫")
-   } else if(opponentLives == 0) {
+   if(playerWins === opponentWins) {
+      createFinalMessage("TIE!!")
+   }  if(playerWins > opponentWins) {
       createFinalMessage("You Won the game! 😃")
+   } else {
+      createFinalMessage("You lost the game 😫")
    } 
 }
 
@@ -255,8 +284,8 @@ function createMessage(result) {
    let newOpponentAttack = document.createElement('p');
 
    sectionMessages.innerHTML = result;
-   newPlayerAttack.innerHTML = playerAttack;
-   newOpponentAttack.innerHTML = opponentAttack;
+   newPlayerAttack.innerHTML = playerAttackIndex;
+   newOpponentAttack.innerHTML = opponentAttackIndex;
    // let paragraph = document.createElement('p');
    // paragraph.innerHTML = "Your buddy chose: " + playerAttack + ", and your opponent chose: " + opponentAttack + " - You " + result;
    //sectionMessages.appendChild(notification);
@@ -266,9 +295,6 @@ function createMessage(result) {
 
 function createFinalMessage(finalResult) {
    sectionMessages.innerHTML = finalResult;
-   fireBtn.disabled = true
-   waterBtn.disabled = true
-   groundBtn.disabled = true
    restartGameSection.style.display = "block";
 }
 
