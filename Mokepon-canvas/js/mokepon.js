@@ -9,6 +9,7 @@ let inputLangostelvis
 let inputTucapalma
 let inputPydos
 let buddyChosen
+let buddyPlayerObject
 let mokeponAttacks
 let opponentMokeponAttacks
 let fireBtn  
@@ -23,30 +24,59 @@ let playerLives = 3;
 let opponentLives = 3;
 let layout = map.getContext("2d")
 let interval
+let backgroundMap = new Image()
+backgroundMap.src = './assets/mokemap.png'
+let heightNeeded
+let mapWidth = window.innerWidth - 20
+const maxWidthMap = 350
+
+if(mapWidth > maxWidthMap) {
+   mapWidth = maxWidthMap - 20
+}
+
+heightNeeded = mapWidth * 600 / 800
+mapa.width = mapWidth
+mapa.height = heightNeeded
 
 class Mokepon {
-   constructor (name, picture, lives) {
+   constructor (name, picture, lives, fotoMapa) {
       this.name = name
       this.picture = picture
       this.lives = lives
       this.attacks = []
-      this.x = 20
-      this.y = 30
-      this.width = 80
-      this.height = 80
+      this.width = 40
+      this.height = 40
+      this.x = randomNumber(0, mapa.width - this.width)
+      this.y = randomNumber(0, mapa.height - this.height)
       this. pictureMap = new Image()
-      this.pictureMap.src = picture
+      this.pictureMap.src = fotoMapa
       this.speedX = 0
       this.speedY = 0
    }
+   drawMokepon() {
+      layout.drawImage (
+         this.pictureMap,
+         this.x,
+         this.y,
+         this.width,
+         this.height
+       )
+   }
 }
 
-let hipodoge = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.png', 5)
-let capipepo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.png', 5)
-let ratigueya = new Mokepon ("Ratigueya","./assets/mokepons_mokepon_ratigueya_attack.png", 3);
-let langostelvis = new Mokepon ("Langostelvis","./assets/mokepons_mokepon_capipepo_attack.png", 3);
-let tucapalma = new Mokepon ("Tucapalma","./assets/mokepons_mokepon_capipepo_attack.png", 3);
-let pydos = new Mokepon ("Pydos","./assets/mokepons_mokepon_capipepo_attack.png", 3);
+let hipodoge = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.png', 5, './assets/hipodoge.png')
+let capipepo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.png', 5, './assets/capipepo.png')
+let ratigueya = new Mokepon ("Ratigueya","./assets/mokepons_mokepon_ratigueya_attack.png", 3, './assets/ratigueya.png');
+let langostelvis = new Mokepon ("Langostelvis","./assets/mokepons_mokepon_capipepo_attack.png", 3, './assets/capipepo.png');
+let tucapalma = new Mokepon ("Tucapalma","./assets/mokepons_mokepon_capipepo_attack.png", 3, './assets/capipepo.png');
+let pydos = new Mokepon ("Pydos","./assets/mokepons_mokepon_capipepo_attack.png", 3, './assets/capipepo.png');
+
+let hipodogeOpponent = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.png', 5, './assets/hipodoge.png')
+let capipepoOpponent = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.png', 5, './assets/capipepo.png')
+let ratigueyaOpponent = new Mokepon ("Ratigueya","./assets/mokepons_mokepon_ratigueya_attack.png", 3, './assets/ratigueya.png');
+let langostelvisOpponent = new Mokepon ("Langostelvis","./assets/mokepons_mokepon_capipepo_attack.png", 3, './assets/capipepo.png');
+let tucapalmaOpponent = new Mokepon ("Tucapalma","./assets/mokepons_mokepon_capipepo_attack.png", 3, './assets/capipepo.png');
+let pydosOpponent = new Mokepon ("Pydos","./assets/mokepons_mokepon_capipepo_attack.png", 3, './assets/capipepo.png');
 
    hipodoge.attacks.push(
       {name: '💧', id: "water-btn"},
@@ -55,8 +85,22 @@ let pydos = new Mokepon ("Pydos","./assets/mokepons_mokepon_capipepo_attack.png"
       {name: '🔥', id: "fire-btn"},
       {name: '🌱', id: "ground-btn"},
    )
+   hipodogeOpponent.attacks.push(
+      {name: '💧', id: "water-btn"},
+      {name: '💧', id: "water-btn"},
+      {name: '💧', id: "water-btn"},
+      {name: '🔥', id: "fire-btn"},
+      {name: '🌱', id: "ground-btn"},
+   )
    
    capipepo.attacks.push(
+      {name: '🌱', id: "ground-btn"},
+      {name: '🌱', id: "ground-btn"},
+      {name: '🌱', id: "ground-btn"},
+      {name: '💧', id: "water-btn"},
+      {name: '🔥', id: "fire-btn"},
+   )
+   capipepoOpponent.attacks.push(
       {name: '🌱', id: "ground-btn"},
       {name: '🌱', id: "ground-btn"},
       {name: '🌱', id: "ground-btn"},
@@ -72,6 +116,14 @@ let pydos = new Mokepon ("Pydos","./assets/mokepons_mokepon_capipepo_attack.png"
       {name: '🌱', id: "ground-btn"},
    )
    
+   ratigueyaOpponent.attacks.push(
+      {name: '🔥', id: "fire-btn"},
+      {name: '🔥', id: "fire-btn"},
+      {name: '🔥', id: "fire-btn"},
+      {name: '💧', id: "water-btn"},
+      {name: '🌱', id: "ground-btn"},
+   )
+   
    langostelvis.attacks.push(
       {name: '💧', id: "water-btn"},
       {name: '💧', id: "water-btn"},
@@ -79,6 +131,14 @@ let pydos = new Mokepon ("Pydos","./assets/mokepons_mokepon_capipepo_attack.png"
       {name: '🔥', id: "fire-btn"},
       {name: '🌱', id: "ground-btn"},
    )
+   langostelvisOpponent.attacks.push(
+      {name: '💧', id: "water-btn"},
+      {name: '💧', id: "water-btn"},
+      {name: '🔥', id: "fire-btn"},
+      {name: '🔥', id: "fire-btn"},
+      {name: '🌱', id: "ground-btn"},
+   )
+
  
    tucapalma.attacks.push(
       {name: '💧', id: "water-btn"},
@@ -87,8 +147,23 @@ let pydos = new Mokepon ("Pydos","./assets/mokepons_mokepon_capipepo_attack.png"
       {name: '🌱', id: "ground-btn"},
       {name: '🔥', id: "fire-btn"},
    )
+ 
+   tucapalmaOpponent.attacks.push(
+      {name: '💧', id: "water-btn"},
+      {name: '💧', id: "water-btn"},
+      {name: '🌱', id: "ground-btn"},
+      {name: '🌱', id: "ground-btn"},
+      {name: '🔥', id: "fire-btn"},
+   )
 
    pydos.attacks.push(
+      {name: '🔥', id: "fire-btn"},
+      {name: '🔥', id: "fire-btn"},
+      {name: '🌱', id: "ground-btn"},
+      {name: '🌱', id: "ground-btn"},
+      {name: '💧', id: "water-btn"},
+   )
+   pydosOpponent.attacks.push(
       {name: '🔥', id: "fire-btn"},
       {name: '🔥', id: "fire-btn"},
       {name: '🌱', id: "ground-btn"},
@@ -131,12 +206,7 @@ function startGame() {
 function chooseBuddy() {
    console.log("They chose me!")
    chooseBuddySection.style.display = 'none';
-    //chooseAttack.style.display = 'flex';
-    sectionMokeponMap.style.display = 'flex'
-    interval = setInterval(drawBuddy, 50)
-    //let capipepoImage = new Image()
-    //capipepoImage.src = capipepo.picture
-   
+     
     if (inputHipodoge.checked) {
         spanBuddyPlayer.innerHTML = inputHipodoge.id;
         buddyChosen = inputHipodoge.id;
@@ -159,7 +229,8 @@ function chooseBuddy() {
       console.log("you have to select one option")
      }
    selectAttack(buddyChosen)
-   randomOpponentBuddy()
+   sectionMokeponMap.style.display = 'flex'
+   startMap()
 }
    
 function selectAttack(buddyChosen) {
@@ -318,36 +389,127 @@ function restartGame() {
    
 }
 
-function drawBuddy(){
-   capipepo.x = capipepo.x + capipepo.speedX
-   capipepo.y = capipepo.y + capipepo.speedY
-   layout.clearRect(0, 0, map.width, map.height)
-      layout.drawImage (
-      capipepo.pictureMap,
-      capipepo.x,
-      capipepo.y,
-      capipepo.width,
-      capipepo.height
+function drawCanvas(){
+   
+   buddyPlayerObject.x = buddyPlayerObject.x + buddyPlayerObject.speedX
+   buddyPlayerObject.y = buddyPlayerObject.y + buddyPlayerObject.speedY
+   layout.clearRect(0, 0, mapa.width, mapa.height)
+    layout.drawImage(
+        backgroundMap,
+        0,
+        0,
+        mapa.width,
+        mapa.height
     )
+      buddyPlayerObject.drawMokepon()
+      hipodogeOpponent.drawMokepon()
+      capipepoOpponent.drawMokepon()
+      ratigueyaOpponent.drawMokepon()
+      langostelvisOpponent.drawMokepon()
+      tucapalmaOpponent.drawMokepon()
+      pydosOpponent.drawMokepon()
+      if(buddyPlayerObject.speedX !== 0 || buddyPlayerObject.speedY !== 0){
+         checkCollision(hipodogeOpponent)
+         checkCollision(capipepoOpponent)
+         checkCollision(ratigueyaOpponent)
+         checkCollision(langostelvisOpponent)
+         checkCollision(tucapalmaOpponent)
+         checkCollision(pydosOpponent)
+      }
    }
 
    function moveUp() {
-      capipepo.speedY = -5
+      buddyPlayerObject.speedY = -5
    }
    function moveDown() {
-      capipepo.speedY = 5
+      buddyPlayerObject.speedY = 5
    }
    function moveRight() {
-      capipepo.speedX = 5
+      buddyPlayerObject.speedX = 5
    }
    function moveLeft() {
-      capipepo.speedX = -5
+      buddyPlayerObject.speedX = -5
    }
 
 
    function stopMove() {
-      capipepo.speedX = 0
-      capipepo.speedY = 0
+      buddyPlayerObject.speedX = 0
+      buddyPlayerObject.speedY = 0
    }
+
+function pressAKey(event) {
+   console.log(event.key)
+   switch(event.key) {
+      case 'ArrowUp':
+         moveUp()
+         break
+      case 'ArrowDown':
+         moveDown()
+         break
+      case 'ArrowLeft':
+         moveLeft()
+         break
+      case 'ArrowRight':
+         moveRight()
+         break
+      default:
+         break
+   }
+}
+
+function startMap() {
+   buddyPlayerObject = getBuddyObject(buddyChosen)
+   // map.width = 320
+   // map.height = 240
+
+   interval = setInterval(drawCanvas, 50)
+ 
+    window.addEventListener('keydown', pressAKey)
+    window.addEventListener('keyup', stopMove)
+}
+
+function getBuddyObject() {
+   for(let i = 0; i < mokepones.length; i++) {
+      if(buddyChosen === mokepones[i].name) {
+         return mokepones[i]
+      }
+   }
+}
+
+function checkCollision(opponent) {
+
+   const arribaEnemigo = 
+         opponent.y
+   const abajoEnemigo = 
+         opponent.y + opponent.height
+   const derechaEnemigo = 
+         opponent.x + opponent.width
+   const izquierdaEnemigo = 
+         opponent.x 
+
+   const arribaMascota = 
+         buddyPlayerObject.y
+   const abajoMascota = 
+         buddyPlayerObject.y + buddyPlayerObject.height
+   const derechaMascota = 
+         buddyPlayerObject.x + buddyPlayerObject.width
+   const izquierdaMascota = 
+         buddyPlayerObject.x 
+
+   if(
+      abajoMascota < arribaEnemigo ||
+      arribaMascota > abajoEnemigo ||
+      derechaMascota < izquierdaEnemigo ||
+      izquierdaMascota > derechaEnemigo
+  ) {
+      return
+  }
+  stopMove()
+  clearInterval(interval)
+  chooseAttack.style.display = 'flex';
+  sectionMokeponMap.style.display = 'none'
+  randomOpponentBuddy(opponent)
+//   alert("There was a collision " + opponent.name)
+}
 
 window.addEventListener("load", startGame)// para que no importe la posicion de la etiqueta script en el html

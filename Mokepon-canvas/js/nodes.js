@@ -20,4 +20,4 @@ const cardsContainer = document.getElementById("cards-container");
 const attackContainer = document.getElementById("attack-container");
 
 const sectionMokeponMap = document.getElementById("mokepon-map");
-const myMap = document.getElementById("map");
+const mapa = document.getElementById("map");
