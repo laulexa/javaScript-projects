@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <title>Mokepon</title>
+</head>
+<body>   
+    <section id="choose-buddy-section">
+        <h1 class="title">Mokepon</h1>
+            <h2 class="subtitle">choose your buddy</h2>
+            <div id="cards-container" class="cards">
+            </div>
+            <button id="choose-buddy-btn">choose</button>
+    </section>
+
+    <section id="mokepon-map">
+        <h2 class="subtitle">Go around the map with your mokepon</h2>
+        <canvas id="map"></canvas>
+        <button onmouseup="stopMove()"  onmousedown="moveUp()">Up</button>
+        <div>
+            <button onmouseup="stopMove()" onmousedown="moveDown()">Down</button>
+            <button onmouseup="stopMove()" onmousedown="moveLeft()">Left</button>
+            <button onmouseup="stopMove()" onmousedown="moveRight()">Right</button>
+        </div>
+    </section>
+
+    <section id="choose-attack">
+        <h1 class="title">Mokepon</h1>
+        <h2 class="subtitle">Choose your attack: </h2>
+            <div id="attack-container" class="card-attacks">           
+            </div>
+
+            <div id="mensajes">   
+                <p id="result">Good Luck!</p>
+                <section id="restart">
+                    <button id="restart-btn">restart</button>
+                </section>
+            </div>
+
+            <div class="attacks">
+                <div class="attacksForThePlayer">
+                    <p id="player-lives">0</p>
+                    <p id="buddy-player"></p>
+                    <div id="player-attacks"></div>
+                </div>
+                <div class="attacksForTheOpponent">
+                    <p id="opponent-lives">0</p>
+                    <p id="buddy-opponent"></p>
+                    <div id="opponent-attacks"></div>
+                </div>
+            </div>
+    </section>
+    <script src="./js/nodes.js"></script>
+    <script src="./js/mokepon.js"></script>
+</body>
+</html>
