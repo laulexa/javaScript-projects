@@ -1,6 +1,7 @@
 let playerId = null
+let opponentId = null
 let mokepones = [];
-let mokeponesOpponets = [];
+let mokeponesOpponents = [];
 let playerAttack = [];
 let opponentAttack = [];
 let mokeponOptions;
@@ -271,10 +272,39 @@ function attackSequence() {
             button.style.background = '#112f58'
             button.disabled = true
          }
-         opponentRandomAttack()
+         if(playerAttack.length === 5) {
+            sendAttacks()
+         }
+      })    
+   })
+}
+
+function sendAttacks() {
+   fetch(`http://localhost:8080/mokepon/${playerId}/attacks`, {
+      method: "post",
+      headers: {
+         "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+         attacks: playerAttack
       })
-      
-})
+   })
+   interval = setInterval(obtainAttacks, 50)
+}
+
+function obtainAttacks() {
+   fetch(`http://localhost:8080/mokepon/${opponentId}/attacks`)
+   .then(function(res) {
+      if(res.ok) {
+         res.json()
+            .then(function({ attacks }) {
+               if(attacks.length === 5) {
+                  opponentAttack = attacks
+                  battle()
+               }
+            })
+      }
+   })
 }
 
 function randomOpponentBuddy() {
@@ -290,24 +320,24 @@ function randomNumber(min,max) {
    return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-function opponentRandomAttack() {
-   let randomBuddyAttack = randomNumber(0,opponentMokeponAttacks.length -1) 
-   if(randomBuddyAttack == 0 || randomBuddyAttack == 1) {
-      opponentAttack.push("FIRE")
-   } else if (randomBuddyAttack == 3 || randomBuddyAttack == 4) {
-      opponentAttack.push("WATER")
-   } else {
-      opponentAttack.push("GROUND")
-   }
-   console.log(opponentAttack)
-   startFight() 
-}
+// function opponentRandomAttack() {
+//    let randomBuddyAttack = randomNumber(0,opponentMokeponAttacks.length -1) 
+//    if(randomBuddyAttack == 0 || randomBuddyAttack == 1) {
+//       opponentAttack.push("FIRE")
+//    } else if (randomBuddyAttack == 3 || randomBuddyAttack == 4) {
+//       opponentAttack.push("WATER")
+//    } else {
+//       opponentAttack.push("GROUND")
+//    }
+//    console.log(opponentAttack)
+//    startFight() 
+// }
 
-function startFight() {
-   if(playerAttack.length === 5) {
-      battle()
-   }
-}
+// function startFight() {
+//    if(playerAttack.length === 5) {
+//       battle()
+//    }
+// }
 
 function bothOpponentsIndex(player, opponent) {
    playerAttackIndex = playerAttack[player]
@@ -315,6 +345,8 @@ function bothOpponentsIndex(player, opponent) {
 }
 
 function battle () {
+   clearInterval(interval)
+
    for(let i = 0; i < playerAttack.length; i++) {
       if(playerAttack[i] == opponentAttack[i]) {
          bothOpponentsIndex(i, i)
@@ -398,17 +430,10 @@ function drawCanvas(){
 
       sendPosition(buddyPlayerObject.x, buddyPlayerObject.y)
 
-      mokeponesOpponets.forEach(function (mokepon){
+      mokeponesOpponents.forEach(function (mokepon){
          mokepon.drawMokepon()
+         checkCollision(mokepon)
       })
-      if(buddyPlayerObject.speedX !== 0 || buddyPlayerObject.speedY !== 0){
-         checkCollision(hipodogeOpponent)
-         checkCollision(capipepoOpponent)
-         checkCollision(ratigueyaOpponent)
-         checkCollision(langostelvisOpponent)
-         checkCollision(tucapalmaOpponent)
-         checkCollision(pydosOpponent)
-      }
    }
 
    function sendPosition(x, y) {
@@ -427,21 +452,21 @@ function drawCanvas(){
              res.json()
                  .then(function ({ opponents }) {
                   console.log(opponents)
-                  mokeponesOpponets =  opponents.map(function (opponent) {
+                  mokeponesOpponents =  opponents.map(function (opponent) {
                      let mokeponOpponent = null
                      const mokeponName = opponent.mokepon.name || ""
                      if (mokeponName === 'Hipodoge'){
-                        mokeponOpponent = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.png', 5, './assets/hipodoge.png')
+                        mokeponOpponent = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.png', 5, './assets/hipodoge.png', opponent.id)
                      } else if(mokeponName === 'Capipepo') {
-                        mokeponOpponent = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.png', 5, './assets/capipepo.png')
+                        mokeponOpponent = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.png', 5, './assets/capipepo.png', opponent.id)
                      } else if(mokeponName === 'Ratigueya') {
-                        mokeponOpponent = new Mokepon ("Ratigueya","./assets/mokepons_mokepon_ratigueya_attack.png", 3, './assets/ratigueya.png')
+                        mokeponOpponent = new Mokepon ("Ratigueya","./assets/mokepons_mokepon_ratigueya_attack.png", 3, './assets/ratigueya.png', opponent.id)
                      } else if (mokeponName === 'Langostelvis') {
-                        mokeponOpponent = new Mokepon ("Langostelvis","./assets/mokepons_mokepon_capipepo_attack.png", 3, './assets/capipepo.png')
+                        mokeponOpponent = new Mokepon ("Langostelvis","./assets/mokepons_mokepon_capipepo_attack.png", 3, './assets/capipepo.png', opponent.id)
                      } else if (mokeponName === 'Tucapalma') {
-                        mokeponOpponent = new Mokepon ("Tucapalma","./assets/mokepons_mokepon_capipepo_attack.png", 3, './assets/capipepo.png')
+                        mokeponOpponent = new Mokepon ("Tucapalma","./assets/mokepons_mokepon_capipepo_attack.png", 3, './assets/capipepo.png', opponent.id)
                      } else if (mokeponName === 'Pydos') {
-                        mokeponOpponent = new Mokepon ("Pydos","./assets/mokepons_mokepon_capipepo_attack.png", 3, './assets/capipepo.png')
+                        mokeponOpponent = new Mokepon ("Pydos","./assets/mokepons_mokepon_capipepo_attack.png", 3, './assets/capipepo.png', opponent.id)
                      }
                      
                      mokeponOpponent.x = opponent.x
@@ -542,6 +567,8 @@ function checkCollision(opponent) {
   }
   stopMove()
   clearInterval(interval)
+
+  opponentId = opponent.id
   chooseAttack.style.display = 'flex';
   sectionMokeponMap.style.display = 'none'
   randomOpponentBuddy(opponent)
