@@ -184,15 +184,14 @@ function joinTheGame() {
 
 function chooseBuddy() {
    console.log("They chose me!")
-   chooseBuddySection.style.display = 'none';
-     
-    if (inputHipodoge.checked) {
-        spanBuddyPlayer.innerHTML = inputHipodoge.id;
-        buddyChosen = inputHipodoge.id;
-      } else if(inputCapipepo.checked){     
-         spanBuddyPlayer.innerHTML = inputCapipepo.id;
-         buddyChosen = inputCapipepo.id;
-      } else if(inputRatigueya.checked){      
+   
+   if (inputHipodoge.checked) {
+      spanBuddyPlayer.innerHTML = inputHipodoge.id;
+      buddyChosen = inputHipodoge.id;
+   } else if(inputCapipepo.checked){     
+      spanBuddyPlayer.innerHTML = inputCapipepo.id;
+      buddyChosen = inputCapipepo.id;
+   } else if(inputRatigueya.checked){      
          spanBuddyPlayer.innerHTML = inputRatigueya.id;
          buddyChosen = inputRatigueya.id;
       } else if(inputLangostelvis.checked){     
@@ -204,9 +203,11 @@ function chooseBuddy() {
       } else if(inputPydos.checked){
          spanBuddyPlayer.innerHTML = inputPydos.id;
          buddyChosen = inputPydos.id;
-     } else {
-      console.log("you have to select one option")
-     }
+      } else {
+         alert("you have to select one option")
+         return
+      }
+      chooseBuddySection.style.display = 'none';
 
      chooseMokepon(buddyChosen)
 
@@ -320,24 +321,24 @@ function randomNumber(min,max) {
    return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-// function opponentRandomAttack() {
-//    let randomBuddyAttack = randomNumber(0,opponentMokeponAttacks.length -1) 
-//    if(randomBuddyAttack == 0 || randomBuddyAttack == 1) {
-//       opponentAttack.push("FIRE")
-//    } else if (randomBuddyAttack == 3 || randomBuddyAttack == 4) {
-//       opponentAttack.push("WATER")
-//    } else {
-//       opponentAttack.push("GROUND")
-//    }
-//    console.log(opponentAttack)
-//    startFight() 
-// }
+function opponentRandomAttack() {
+   let randomBuddyAttack = randomNumber(0,opponentMokeponAttacks.length -1) 
+   if(randomBuddyAttack == 0 || randomBuddyAttack == 1) {
+      opponentAttack.push("FIRE")
+   } else if (randomBuddyAttack == 3 || randomBuddyAttack == 4) {
+      opponentAttack.push("WATER")
+   } else {
+      opponentAttack.push("GROUND")
+   }
+   console.log(opponentAttack)
+   startFight() 
+}
 
-// function startFight() {
-//    if(playerAttack.length === 5) {
-//       battle()
-//    }
-// }
+function startFight() {
+   if(playerAttack.length === 5) {
+      battle()
+   }
+}
 
 function bothOpponentsIndex(player, opponent) {
    playerAttackIndex = playerAttack[player]
@@ -451,7 +452,7 @@ function drawCanvas(){
          if (res.ok) {
              res.json()
                  .then(function ({ opponents }) {
-                  console.log(opponents)
+                  // console.log(opponents)
                   mokeponesOpponents =  opponents.map(function (opponent) {
                      let mokeponOpponent = null
                      const mokeponName = opponent.mokepon.name || ""

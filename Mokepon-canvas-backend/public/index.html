@@ -22,11 +22,31 @@
     <section id="mokepon-map">
         <h2 class="subtitle">Go around the map with your mokepon</h2>
         <canvas id="map"></canvas>
-        <button onmouseup="stopMove()"  onmousedown="moveUp()">Up</button>
+        <button 
+            ontouchstart="moveUp()" 
+            ontouchend="stopMove()" 
+            onmouseup="stopMove()"  
+            onmousedown="moveUp()"
+            >Up</button>
         <div>
-            <button onmouseup="stopMove()" onmousedown="moveDown()">Down</button>
-            <button onmouseup="stopMove()" onmousedown="moveLeft()">Left</button>
-            <button onmouseup="stopMove()" onmousedown="moveRight()">Right</button>
+            <button 
+                onmouseup="stopMove()" 
+                onmousedown="moveDown()"
+                ontouchend="stopMove()" 
+                ontouchstart="moveDown()"
+                >Down</button>
+            <button 
+                onmouseup="stopMove()" 
+                onmousedown="moveLeft()"
+                ontouchend="stopMove()" 
+                ontouchstart="moveLeft()"
+                >Left</button>
+            <button 
+                onmouseup="stopMove()" 
+                onmousedown="moveRight()"
+                ontouchend="stopMove()" 
+                ontouchstart="moveRight()">
+                Right</button>
         </div>
     </section>
 
@@ -56,7 +76,9 @@
                 </div>
             </div>
     </section>
-    <script src="./js/nodes.js"></script>
-    <script src="./js/mokepon.js"></script>
+    <script src="./nodes.js"></script>
+    <script src="./mokepon.js"></script>
 </body>
 </html>
+
+<!-- to start the server: node index.js  to stop it: control c-->
